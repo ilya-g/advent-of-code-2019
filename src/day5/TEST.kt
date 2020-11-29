@@ -5,7 +5,7 @@ import kotlin.io.path.Path
 import kotlin.io.path.readText
 
 fun runWithInput(program: List<Int>, input: Int): List<Int> =
-    IntCodeComputer(program).input(input).runOutputs()
+    IntCodeComputer(program).input(input).runToHaltGetOutputs()
 
 fun main() {
 //    runTests()
