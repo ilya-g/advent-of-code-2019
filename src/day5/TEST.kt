@@ -4,18 +4,19 @@ import common.IntCodeComputer
 import kotlin.io.path.Path
 import kotlin.io.path.readText
 
-fun runWithInput(program: List<Int>, input: Int): List<Int> =
-    IntCodeComputer(program).input(input).runToHaltGetOutputs()
+fun IntCodeComputer.runWithInput(input: Int): List<Long> = reset().input(input).runToHaltGetOutputs()
+fun runWithInput(program: List<Long>, input: Int): List<Int> =
+    IntCodeComputer(program).runWithInput(input).map { it.toInt() }
 
 fun main() {
 //    runTests()
-    val code = Path("src/day5/input.txt").readText().trim().split(",").map { it.toInt() }
+    val code = Path("src/day5/input.txt").readText().trim().split(",").map { it.toLong() }
+    val computer = IntCodeComputer(code)
 
-    val output1 = runWithInput(code, 1)
+    val output1 = computer.runWithInput( 1)
     println(output1)
 
-
-    val output2 = runWithInput(code, 5)
+    val output2 = computer.runWithInput( 5)
     println(output2)
 }
 

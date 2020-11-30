@@ -5,19 +5,19 @@ import common.permutations
 import kotlin.io.path.*
 
 
-fun runWithInput(program: List<Int>, phase: Int, input: Int): List<Int> =
+fun runWithInput(program: List<Long>, phase: Int, input: Int): List<Long> =
     IntCodeComputer(program).input(phase).input(input).runToHaltGetOutputs()
 
 
-fun amplifySignal(code: List<Int>, phases: List<Int>) = phases.fold(0) { input, phase ->
-    runWithInput(code, phase, input).single()
+fun amplifySignal(code: List<Long>, phases: List<Int>) = phases.fold(0) { input, phase ->
+    runWithInput(code, phase, input).single().toInt()
 }
 
-fun amplifySignal2(code: List<Int>, phases: List<Int>): Int {
+fun amplifySignal2(code: List<Long>, phases: List<Int>): Long {
     val amplifiers = phases.map { phase -> IntCodeComputer(code).input(phase) }
     amplifiers.first().input(0)
 
-    var lastValue = 0
+    var lastValue = 0L
     do {
         for (index in amplifiers.indices) {
             val nextIndex = (index + 1) % amplifiers.size
@@ -32,14 +32,14 @@ fun amplifySignal2(code: List<Int>, phases: List<Int>): Int {
 
 
 val allPhases = (0..4).toList().permutations()
-fun maxPhases(code: List<Int>): List<Int> = allPhases.maxByOrNull { phases -> amplifySignal(code, phases) }!!
+fun maxPhases(code: List<Long>): List<Int> = allPhases.maxByOrNull { phases -> amplifySignal(code, phases) }!!
 
 val allPhases2 = (5..9).toList().permutations()
-fun maxPhases2(code: List<Int>): List<Int> = allPhases2.maxByOrNull { phases -> amplifySignal2(code, phases) }!!
+fun maxPhases2(code: List<Long>): List<Int> = allPhases2.maxByOrNull { phases -> amplifySignal2(code, phases) }!!
 
 
 fun main() {
-    val code = Path("src/day7/ampCode.txt").readText().trim().split(",").map { it.toInt() }
+    val code = Path("src/day7/ampCode.txt").readText().trim().split(",").map { it.toLong() }
 
 //    runTests()
 
@@ -53,17 +53,17 @@ fun main() {
 }
 
 fun runTests() {
-    val code1 = listOf(3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0)
+    val code1: List<Long> = listOf(3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0)
     val max1 = maxPhases(code1).also(::println)
     amplifySignal(code1, max1).also(::println)
 
-    val code2 = listOf(3,31,3,32,1002,32,10,32,1001,31,-2,31,1007,31,0,33,1002,33,7,33,1,33,31,31,1,32,31,31,4,31,99,0,0,0)
+    val code2: List<Long> = listOf(3,31,3,32,1002,32,10,32,1001,31,-2,31,1007,31,0,33,1002,33,7,33,1,33,31,31,1,32,31,31,4,31,99,0,0,0)
     val max2 = maxPhases(code2).also(::println)
     amplifySignal(code2, max2).also(::println)
 }
 
 fun runTests2() {
-    val code = listOf(3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5)
+    val code: List<Long> = listOf(3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5)
     val computer = IntCodeComputer(code)
     computer.input(9).input(0).input(1).runAndConsume { value ->
         println("output: $value")
