@@ -18,7 +18,7 @@ fun Int.meetsCriteria(): Boolean {
 fun String.runs(): List<Int> = mutableListOf(length).also { result ->
     var c = first()
     var r = 0
-    forEachIndexed { p, c1 ->
+    forEach { c1 ->
         if (c != c1) {
             result.add(r)
             c = c1
