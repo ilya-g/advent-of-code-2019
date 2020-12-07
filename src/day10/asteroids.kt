@@ -1,13 +1,11 @@
 package day10
 
+import common.gcd
 import common.positionXY.Pos
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
 import kotlin.math.abs
 import kotlin.math.sign
-
-tailrec fun gcd(a: Int, b: Int): Int =
-        if (b == 0) a else gcd(b, a % b)
 
 operator fun Pos.minus(other: Pos) = Delta(this.x - other.x, this.y - other.y)
 operator fun Pos.plus(delta: Delta) = Pos(this.x + delta.dx, this.y + delta.dy)

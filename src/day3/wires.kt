@@ -1,17 +1,11 @@
 package day3
 
+import common.positionXY.Direction
 import common.positionXY.Pos
 import common.splitAt
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
 import kotlin.math.abs
-
-enum class Direction(val dx: Int, val dy: Int) {
-    U(0, 1),
-    R(1, 0),
-    D(0, -1),
-    L(-1, 0);
-}
 
 data class Move(val direction: Direction, val steps: Int) {
     override fun toString(): String = "$direction$steps"

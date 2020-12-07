@@ -1,10 +1,10 @@
 package day2
 
 import common.IntCodeComputer
-import kotlin.io.path.*
+import common.loadIntCode
 
 fun main() {
-    val data = Path("src/day2/input.txt").readText().trim().split(",").map { it.toLong() }
+    val data = loadIntCode("src/day2/input.txt")
 
     val computer = IntCodeComputer(data)
     println(computer.runNounVerb(12, 2))

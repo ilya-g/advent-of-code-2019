@@ -1,8 +1,7 @@
 package day5
 
 import common.IntCodeComputer
-import kotlin.io.path.Path
-import kotlin.io.path.readText
+import common.loadIntCode
 
 fun IntCodeComputer.runWithInput(input: Int): List<Long> = reset().input(input).runToHaltGetOutputs()
 fun runWithInput(program: List<Long>, input: Int): List<Int> =
@@ -10,7 +9,7 @@ fun runWithInput(program: List<Long>, input: Int): List<Int> =
 
 fun main() {
 //    runTests()
-    val code = Path("src/day5/input.txt").readText().trim().split(",").map { it.toLong() }
+    val code = loadIntCode("src/day5/input.txt")
     val computer = IntCodeComputer(code)
 
     val output1 = computer.runWithInput( 1)

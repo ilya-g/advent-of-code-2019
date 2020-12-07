@@ -1,12 +1,11 @@
 package day9
 
 import common.IntCodeComputer
-import kotlin.io.path.Path
-import kotlin.io.path.readText
+import common.loadIntCode
 
 
 fun main() {
-    val code = Path("src/day9/input.txt").readText().trim().split(",").map { it.toLong() }
+    val code = loadIntCode("src/day9/input.txt")
     val computer = IntCodeComputer(code)
 
     computer.reset().input(1).runToHaltGetOutputs().let(::println)

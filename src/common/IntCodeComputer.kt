@@ -1,5 +1,9 @@
 package common
 
+import kotlin.io.path.Path
+import kotlin.io.path.readText
+
+fun loadIntCode(path: String) = Path(path).readText().trim().split(",").map { it.toLong() }
 
 class IntCodeComputer(initial: List<Long>) {
     private val rom = initial
@@ -51,10 +55,14 @@ class IntCodeComputer(initial: List<Long>) {
     }
 
     fun runNounVerb(noun: Int, verb: Int): Int {
-        writeMem(1,  noun.toLong())
+        writeMem(1, noun.toLong())
         writeMem(2, verb.toLong())
         runAndConsume { /* output ignored */ }.ensureNotWaiting()
         return readMem(0).toInt()
+    }
+
+    fun runToPauseGetOutputs(): List<Long> = buildList {
+        runAndConsume { add(it) }
     }
 
     fun runToHaltGetOutputs(): List<Long> = buildList {
@@ -65,14 +73,14 @@ class IntCodeComputer(initial: List<Long>) {
         if (this == CommandResult.WaitInput) error("Should not stop to wait at IP:$ip")
     }
 
-    private fun readMem(address: Long): Long = when {
+    fun readMem(address: Long): Long = when {
         address < 0 -> error("Invalid read address: $address")
         address < rom.size -> ram[address.toInt()] ?: rom[address.toInt()]
         address < Int.MAX_VALUE -> ram[address.toInt()] ?: 0
         else -> error("Invalid read address: $address")
     }
 
-    private fun writeMem(address: Long, value: Long) {
+    fun writeMem(address: Long, value: Long) {
         if (address !in 0..Int.MAX_VALUE) error("Invalid write address: $address")
         ram[address.toInt()] = value
     }

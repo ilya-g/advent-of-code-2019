@@ -1,8 +1,8 @@
 package day7
 
 import common.IntCodeComputer
+import common.loadIntCode
 import common.permutations
-import kotlin.io.path.*
 
 
 fun runWithInput(program: List<Long>, phase: Int, input: Int): List<Long> =
@@ -39,7 +39,7 @@ fun maxPhases2(code: List<Long>): List<Int> = allPhases2.maxByOrNull { phases ->
 
 
 fun main() {
-    val code = Path("src/day7/ampCode.txt").readText().trim().split(",").map { it.toLong() }
+    val code = loadIntCode("src/day7/ampCode.txt")
 
 //    runTests()
 
